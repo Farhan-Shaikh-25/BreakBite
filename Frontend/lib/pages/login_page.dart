@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../widgets/breakbite_appbar.dart';
+import 'package:frontend/pages/signup_page.dart';
+import 'package:frontend/utils/PageNav.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -11,8 +11,6 @@ class LoginPage extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: const BreakBiteAppBar(),
-      drawer: const Drawer(),
       body: Center(
         child: SingleChildScrollView( // Added scroll for small screens
           child: Padding(
@@ -37,50 +35,65 @@ class LoginPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-
-                  // --- THE "FILLINGS" (TextFields) ---
                   Container(
-                    color: const Color(0xFFFFD700), // Cheese yellow background!
+                    height: 20,
+                    color: Colors.yellow,
+                  ),
+                  // --- THE "FILLINGS" (TextFields) ---
+                  Container( //
+                    color: Colors.brown,// Cheese yellow background!,
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        const TextField(
+                        TextField(
                           decoration: InputDecoration(
                             labelText: "Email",
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: Colors.white70,
+                            contentPadding: EdgeInsets.all(15)
                           ),
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(color:Colors.black),
+                          
                         ),
                         const SizedBox(height: 10),
-                        const TextField(
+                        TextField(
                           obscureText: true,
                           decoration: InputDecoration(
                             labelText: "Password",
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: Colors.white70,
+                            contentPadding: EdgeInsets.all(15)
                           ),
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(color:Colors.black),
                         ),
                       ],
                     ),
                   ),
 
                   // --- BOTTOM BUN ---
-                  InkWell(
-                    onTap: () => print("Sign up tapped!"),
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFA66D42), // Darker bottom bun
-                        borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
-                      ),
-                      child: const Text(
-                        "Order Now (SignUp)",
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
+
+                  Material(
+                    color: const Color(0xFFA66D42), // Move color here
+                    borderRadius: const BorderRadius.vertical(bottom: Radius.circular(30)),
+                    clipBehavior: Clip.antiAlias, // <--- This is the cookie cutter!
+                    child: InkWell(
+                      onTap: () => print("Sign up tapped!"),
+                      child: Container(
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: const Text("Order Now (Sign In)"),
                       ),
                     ),
                   ),
+                  SizedBox(height: 10,),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).push(PageNav(child: SignupPage())),
+                    child: Text(
+                        "No account? Sign Up!",
+                        style: Theme.of(context).textTheme.labelLarge,
+                    ),
+                  )
                 ],
               ),
             ),
