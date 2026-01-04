@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/breakbite_textbox.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
@@ -46,15 +47,15 @@ class SignupPage extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        _buildBurgerField(context, "Full Name", Icons.badge),
-                        const SizedBox(height: 12),
-                        _buildBurgerField(context, "Email", Icons.email),
-                        const SizedBox(height: 12),
-                        _buildBurgerField(context, "Phone Number", Icons.phone, keyboard: TextInputType.phone),
-                        const SizedBox(height: 12),
-                        _buildBurgerField(context, "Password", Icons.lock, obscure: true),
-                        const SizedBox(height: 12),
-                        _buildBurgerField(context, "Confirm Password", Icons.lock_outline, obscure: true),
+                        BreakBiteTextBox(hint: "Full Name", icon: Icons.person),
+                        const SizedBox(height: 10),
+                        BreakBiteTextBox(hint: "Email", icon: Icons.email, keyboard: TextInputType.emailAddress,),
+                        const SizedBox(height: 10),
+                        BreakBiteTextBox(hint: "Password", icon: Icons.password, obscure: true,),
+                        const SizedBox(height: 10),
+                        BreakBiteTextBox(hint: "Phone Number", icon: Icons.phone, keyboard: TextInputType.phone,),
+                        const SizedBox(height: 10),
+                        BreakBiteTextBox(hint: "SAP id", icon: Icons.badge, keyboard: TextInputType.number,),
                       ],
                     ),
                   ),

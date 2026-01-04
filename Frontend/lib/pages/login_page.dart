@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/utils/PageNav.dart';
+import 'package:frontend/widgets/breakbite_textbox.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -45,33 +46,14 @@ class LoginPage extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: "Email",
-                            filled: true,
-                            fillColor: Colors.white70,
-                            contentPadding: EdgeInsets.all(15)
-                          ),
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(color:Colors.black),
-                          
-                        ),
+                        BreakBiteTextBox(hint: "Email", icon: Icons.email),
                         const SizedBox(height: 10),
-                        TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            labelText: "Password",
-                            filled: true,
-                            fillColor: Colors.white70,
-                            contentPadding: EdgeInsets.all(15)
-                          ),
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(color:Colors.black),
-                        ),
+                        BreakBiteTextBox(hint: "Password", icon: Icons.password),
                       ],
                     ),
                   ),
 
                   // --- BOTTOM BUN ---
-
                   Material(
                     color: const Color(0xFFA66D42), // Move color here
                     borderRadius: const BorderRadius.vertical(bottom: Radius.circular(30)),
