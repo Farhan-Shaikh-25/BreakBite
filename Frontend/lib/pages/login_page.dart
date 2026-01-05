@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/utils/PageNav.dart';
+import 'package:frontend/utils/auth_check.dart';
 import 'package:frontend/widgets/breakbite_textbox.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+  final TextEditingController uemail = TextEditingController();
+  final TextEditingController upass = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +50,9 @@ class LoginPage extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        BreakBiteTextBox(hint: "Email", icon: Icons.email),
+                        BreakBiteTextBox(hint: "Email", icon: Icons.email, cont: uemail,),
                         const SizedBox(height: 10),
-                        BreakBiteTextBox(hint: "Password", icon: Icons.password),
+                        BreakBiteTextBox(hint: "Password", icon: Icons.password, cont: upass,),
                       ],
                     ),
                   ),
@@ -59,7 +63,13 @@ class LoginPage extends StatelessWidget {
                     borderRadius: const BorderRadius.vertical(bottom: Radius.circular(30)),
                     clipBehavior: Clip.antiAlias, // <--- This is the cookie cutter!
                     child: InkWell(
-                      onTap: () => print("Sign up tapped!"),
+                      onTap: () async{
+                        User? user = await AuthCheck.login(uemail.text.trim(), upass.text.trim());
+                        if(!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("User LoggedIn for ${user?.email}"))
+                        );
+                      },
                       child: Container(
                         width: double.infinity,
                         alignment: Alignment.center,
@@ -70,7 +80,11 @@ class LoginPage extends StatelessWidget {
                   ),
                   SizedBox(height: 10,),
                   TextButton(
-                    onPressed: () => Navigator.of(context).push(PageNav(child: SignupPage())),
+                    onPressed: () {
+                      Navigator.of(context).push(PageNav(child: SignupPage()));
+                      uemail.clear();
+                      upass.clear();
+                    },
                     child: Text(
                         "No account? Sign Up!",
                         style: Theme.of(context).textTheme.labelLarge,

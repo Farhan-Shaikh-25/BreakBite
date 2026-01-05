@@ -1,8 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/auth_check.dart';
 import 'package:frontend/widgets/breakbite_textbox.dart';
 
 class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+  SignupPage({super.key});
+
+  final TextEditingController uname = TextEditingController();
+  final TextEditingController uemail = TextEditingController();
+  final TextEditingController upass= TextEditingController();
+  final TextEditingController usap = TextEditingController();
+  final TextEditingController unum = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +55,15 @@ class SignupPage extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        BreakBiteTextBox(hint: "Full Name", icon: Icons.person),
+                        BreakBiteTextBox(hint: "Full Name", icon: Icons.person, cont: uname,),
                         const SizedBox(height: 10),
-                        BreakBiteTextBox(hint: "Email", icon: Icons.email, keyboard: TextInputType.emailAddress,),
+                        BreakBiteTextBox(hint: "Email", icon: Icons.email, keyboard: TextInputType.emailAddress, cont: uemail,),
                         const SizedBox(height: 10),
-                        BreakBiteTextBox(hint: "Password", icon: Icons.password, obscure: true,),
+                        BreakBiteTextBox(hint: "Password", icon: Icons.password, obscure: true, cont: upass,),
                         const SizedBox(height: 10),
-                        BreakBiteTextBox(hint: "Phone Number", icon: Icons.phone, keyboard: TextInputType.phone,),
+                        BreakBiteTextBox(hint: "Phone Number", icon: Icons.phone, keyboard: TextInputType.phone, cont: unum,),
                         const SizedBox(height: 10),
-                        BreakBiteTextBox(hint: "SAP id", icon: Icons.badge, keyboard: TextInputType.number,),
+                        BreakBiteTextBox(hint: "SAP id", icon: Icons.badge, keyboard: TextInputType.number, cont: usap,),
                       ],
                     ),
                   ),
@@ -66,7 +74,13 @@ class SignupPage extends StatelessWidget {
                     borderRadius: const BorderRadius.vertical(bottom: Radius.circular(30)),
                     clipBehavior: Clip.antiAlias,
                     child: InkWell(
-                      onTap: () => print("Account Created!"),
+                      onTap: () async{
+                        User? user = await AuthCheck.signUp(uemail.text.trim(), upass.text.trim());
+                        if(!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("User Created for ${user?.email}")),
+                        );
+                      },
                       child: Container(
                         width: double.infinity,
                         alignment: Alignment.center,
@@ -87,7 +101,14 @@ class SignupPage extends StatelessWidget {
                   // --- FOOTER (Back to Login) ---
                   const SizedBox(height: 20),
                   TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      uname.clear();
+                      upass.clear();
+                      uemail.clear();
+                      unum.clear();
+                      usap.clear();
+                    },
                     child: Text(
                       "Already have an account? Login",
                       style: Theme.of(context).textTheme.labelLarge,
@@ -97,26 +118,6 @@ class SignupPage extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  // Helper method to keep the code clean
-  Widget _buildBurgerField(BuildContext context, String hint, IconData icon, {bool obscure = false, TextInputType keyboard = TextInputType.text}) {
-    return TextField(
-      obscureText: obscure,
-      keyboardType: keyboard,
-      style: const TextStyle(color: Colors.black),
-      decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: Colors.brown),
-        hintText: hint,
-        filled: true,
-        fillColor: Colors.white70,
-        contentPadding: const EdgeInsets.all(15),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
         ),
       ),
     );
