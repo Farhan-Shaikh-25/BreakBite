@@ -1,5 +1,6 @@
 import express from "express"
 import dotenv from "dotenv"
+import cors from "cors"
 import { userRoute } from "./routes/user.route.js";
 import { DBConnect } from "./utils/db_connect.js";
 dotenv.config()
@@ -7,6 +8,7 @@ dotenv.config()
 const app = express();
 
 app.use(express.json())
+app.use(cors())
 DBConnect()
 
 app.use('/user', userRoute)

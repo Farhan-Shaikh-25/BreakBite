@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/utils/PageNav.dart';
 import 'package:frontend/utils/auth_check.dart';
 import 'package:frontend/widgets/breakbite_textbox.dart';
 
-class LoginPage extends StatelessWidget {
+import 'dashboard_page.dart';
+
+class LoginPage extends StatelessWidget{
   LoginPage({super.key});
   final TextEditingController uemail = TextEditingController();
   final TextEditingController upass = TextEditingController();
@@ -65,10 +70,29 @@ class LoginPage extends StatelessWidget {
                     child: InkWell(
                       onTap: () async{
                         User? user = await AuthCheck.login(uemail.text.trim(), upass.text.trim());
-                        if(!context.mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("User LoggedIn for ${user?.email}"))
-                        );
+                        if(user!=null) {
+                          final String? token = await user.getIdToken();
+                          final uname = await get(
+                            Uri.parse("http://localhost:5000/user/login/"),
+                            headers: {
+                              "Content-Type": "application/json",
+                              "Authorization": "Bearer $token",
+                            }
+                          );
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(
+                                  "User LoggedIn for ${user.email}"))
+                          );
+                          Navigator.of(context).pushReplacement(PageNav(child: DashboardPage(uname: jsonDecode(uname.body)['message'])));
+                        }
+                        else {
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(
+                                  "User doesn't exist!"))
+                          );
+                        }
                       },
                       child: Container(
                         width: double.infinity,

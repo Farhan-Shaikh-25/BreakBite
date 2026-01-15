@@ -1,25 +1,36 @@
-import { User } from "../models/user.model.js"
+import { User } from "../models/user.models.js"
 
 export const signupController = async (req) => {
-    token = req.body.user
-    fname - req.body.uname
-    pnum = req.body.pnum
-    sap = req.body.sap
+    const token = req.user.uid
+    const fname = req.body.uname
+    const email = req.body.uemail
+    const password = req.body.upass
+    const pnum = req.body.upnum
+    const sap = req.body.usap
 
-    const userExists = await User.findOne(token.uid)
+    const userExists = await User.findOne({uid: token})
 
-    if(userExists){
+    if(userExists != null){
+        console.log("UE")
         return "User Already Exists!"
     }
-    
+
     const newUser = new User({
-        _id : token.uid,
+        uid : token,
         fullName : fname,
-        email : token.email,
-        password : token.password,
+        email : email,
+        password : password,
         phoneNumber : pnum,
         sapId : sap
     })
     await newUser.save()
+    console.log(req.user)
+    console.log(token)
+    console.log(fname)
+    console.log(email)
+    console.log(password)
+    console.log(pnum)
+    console.log(sap)
+    console.log("UC")
     return "User Creaated Successfully"
 }
