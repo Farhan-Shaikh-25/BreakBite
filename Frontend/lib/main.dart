@@ -1,8 +1,12 @@
 import "package:flutter/material.dart";
 import "package:firebase_core/firebase_core.dart";
+import "package:firebase_messaging/firebase_messaging.dart";
+import "package:frontend/pages/dashboard_page.dart";
 import "package:frontend/pages/landing_page.dart";
 import "package:frontend/pages/loading_page.dart";
+import "package:frontend/utils/order_data.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:provider/provider.dart";
 import "firebase_options.dart";
 
 void main() async{
@@ -10,7 +14,12 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
-  runApp(MyApp());
+  runApp(
+      ChangeNotifierProvider(
+          create: (context) => OrderData(orderId: "1236"),
+          child: MyApp(),
+      )
+  );
 }
 
 class MyApp extends StatelessWidget{
@@ -40,7 +49,8 @@ class MyApp extends StatelessWidget{
         ),
       ),
       title: "BreakBite",
-      home: LoadingPage(child: LandingPage()),
+      // home: LoadingPage(child: LandingPage()),
+      home: DashboardPage(uname: "BreakBit User"),
     );
   }
 }
