@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget{
       ),
       title: "BreakBite",
       // home: LoadingPage(child: LandingPage()),
-      home: DashboardPage(uname: "BreakBit User"),
+      home: DashboardPage(uname: "BreakBite User"),
     );
   }
 }
