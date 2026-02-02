@@ -114,7 +114,7 @@ class _SignupPageState extends State<SignupPage> {
 
                             // NOTE: Use 10.0.2.2 if on Android Emulator
                             final response = await post(
-                                Uri.parse("http://10.0.2.2:5000/user/signup"),
+                                Uri.parse("http://localhost:5000/user/signup"),
                                 headers: {
                                   "Content-Type": "application/json",
                                   "Authorization": "Bearer $token"
@@ -122,6 +122,7 @@ class _SignupPageState extends State<SignupPage> {
                                 body: jsonEncode({
                                   "uname": uname.text,
                                   "uemail": uemail.text,
+                                  "upass": upass.text,
                                   "upnum": unum.text,
                                   "usap": usap.text,
                                 })

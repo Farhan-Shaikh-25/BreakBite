@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema(
                 },
                 itemPrice: {
                     type: Number,
-                    required: true,
+                    required: true
                 },
                 quantity: {
                     type: Number,
@@ -52,4 +52,4 @@ orderSchema.pre("save", function(){
     });
     this.totalAmount = total
 })
-export const Order = new mongoose.model("Order", orderSchema)
+export const Order = await mongoose.model("Order", orderSchema)

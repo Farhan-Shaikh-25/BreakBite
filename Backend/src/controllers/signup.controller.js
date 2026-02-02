@@ -8,9 +8,18 @@ export const signupController = async (req) => {
     const pnum = req.body.upnum
     const sap = req.body.usap
 
+    console.log(req.user)
+    console.log(req.body)
+    console.log(token)
+    console.log(fname)
+    console.log(email)
+    console.log(password)
+    console.log(pnum)
+    console.log(sap)
+
     const userExists = await User.findOne({uid: token})
 
-    if(userExists != null){
+    if(userExists != null){ 
         console.log("UE")
         return "User Already Exists!"
     }

@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import cors from "cors"
 import { userRoute } from "./routes/user.route.js";
 import { DBConnect } from "./utils/db_connect.js";
+import { itemRoute } from "./routes/item.route.js";
 dotenv.config()
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(cors())
 DBConnect()
 
 app.use('/user', userRoute)
+app.use('/item', itemRoute)
 
 app.get("/",(req,res) => {
     console.log("request recieved")

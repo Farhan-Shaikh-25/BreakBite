@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_messaging/firebase_messaging.dart";
+import "package:frontend/pages/admin_page.dart";
 import "package:frontend/pages/dashboard_page.dart";
 import "package:frontend/pages/landing_page.dart";
 import "package:frontend/pages/loading_page.dart";
@@ -50,7 +51,8 @@ class MyApp extends StatelessWidget{
       ),
       title: "BreakBite",
       // home: LoadingPage(child: LandingPage()),
-      home: DashboardPage(uname: "BreakBit User"),
+      // home: DashboardPage(uname: "BreakBit User"),
+      home: AdminPage(),
     );
   }
 }

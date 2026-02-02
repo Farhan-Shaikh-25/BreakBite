@@ -13,11 +13,11 @@ const itemSchema = new mongoose.Schema(
         },
         category: {
             type: String,
-            enum: ["Drinks", "Snacks", "Thali", "South Indian"],
+            enum: ["Beverages", "Snacks", "Thali", "South Indian"],
             required: true
         }
     },
     {timestamps: true}
 )
 
-export const Item = new mongoose.model("Item", itemSchema)
+export const Item = await mongoose.model("Item", itemSchema)

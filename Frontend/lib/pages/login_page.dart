@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/admin_page.dart';
 import 'package:http/http.dart';
 import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/utils/PageNav.dart';
@@ -72,7 +73,7 @@ class LoginPage extends StatelessWidget{
                         User? user = await AuthCheck.login(uemail.text.trim(), upass.text.trim());
                         if(user!=null) {
                           final String? token = await user.getIdToken();
-                          final uname = await get(
+                          final udata = await get(
                             Uri.parse("http://localhost:5000/user/login/"),
                             headers: {
                               "Content-Type": "application/json",
@@ -84,7 +85,15 @@ class LoginPage extends StatelessWidget{
                               SnackBar(content: Text(
                                   "User LoggedIn for ${user.email}"))
                           );
-                          Navigator.of(context).pushReplacement(PageNav(child: DashboardPage(uname: jsonDecode(uname.body)['message'])));
+                          final userData = jsonDecode(udata.body);
+                          if(userData['userType'] == 'normal') {
+                            Navigator.of(context).pushReplacement(PageNav(
+                                child: DashboardPage(
+                                    uname: userData['message'])));
+                          } else{
+                            Navigator.of(context).pushReplacement(PageNav(
+                                child: AdminPage()));
+                          }
                         }
                         else {
                           if (!context.mounted) return;

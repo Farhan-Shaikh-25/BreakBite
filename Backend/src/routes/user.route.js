@@ -12,5 +12,8 @@ userRoute.post('/signup/', authCheck, async (req,res) => {
 
 userRoute.get('/login', authCheck, async (req,res) => {
     const msg = await loginController(req)
-    res.json({"message": msg})
+    let userType = "normal"
+    if( msg == "admin123") userType = "undefined"
+
+    res.json({"message": msg, "userType": userType})
 })

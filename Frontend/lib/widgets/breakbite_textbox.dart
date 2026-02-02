@@ -22,7 +22,7 @@ class BreakBiteTextBox extends StatelessWidget{
       obscureText: obscure,
       keyboardType: keyboard,
       controller: cont,
-      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color:Colors.black),
+      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color:Colors.brown),
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: Colors.brown,),
         hintText: hint,
