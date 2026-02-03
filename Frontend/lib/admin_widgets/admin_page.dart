@@ -1,28 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:frontend/admin_utils/admin_order.dart';
 import 'package:frontend/pages/item_form_page.dart';
 import 'package:frontend/widgets/breakbite_appbar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'admin_history_page.dart';
 import '../widgets/breakbite_textbox.dart';
+import 'admin_live_page.dart';
 import 'admin_order_details.dart';
-
-// --- MOCK DATA MODEL (Replace with your OrderData provider or MongoDB model later) ---
-class AdminOrder {
-  final String id;
-  final String userName;
-  String status; // 'Pending', 'Cooking', 'Ready', 'Collected'
-  final double total;
-  final List<String> items;
-  final String time;
-
-  AdminOrder({
-    required this.id,
-    required this.userName,
-    required this.status,
-    required this.total,
-    required this.items,
-    required this.time,
-  });
-}
+import 'package:http/http.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
@@ -33,25 +20,30 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   int _selectedIndex = 0;
+  late List<AdminOrder> orders;
 
-  // Mock Data List
-  final List<AdminOrder> _orders = [
-    AdminOrder(id: "#1001", userName: "Rahul K.", status: "Pending", total: 180, items: ["Veg Burger", "Coke"], time: "10:30 AM"),
-    AdminOrder(id: "#1002", userName: "Priya S.", status: "Cooking", total: 250, items: ["Chicken Wrap", "Fries", "Pepsi"], time: "10:32 AM"),
-    AdminOrder(id: "#1003", userName: "Amit B.", status: "Ready", total: 60, items: ["Coffee"], time: "10:35 AM"),
-    AdminOrder(id: "#0998", userName: "Sneha G.", status: "Collected", total: 120, items: ["Cheese Sandwich"], time: "09:45 AM"),
-    AdminOrder(id: "#0999", userName: "Vikram R.", status: "Collected", total: 200, items: ["Pasta"], time: "09:50 AM"),
-  ];
+  @override
+  void initState() async {
+    super.initState();
+    final msg = await get(
+      Uri.parse("http://localhost:5000/order/"),
+      headers: {
+        'Content-Type' : 'application/json'
+      }
+    );
+    final orderMap = jsonDecode(msg.body);
+    orders = orderMap.map((order) => AdminOrder.fromJson(order)).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     // Filter lists based on status
-    final liveOrders = _orders.where((o) => o.status != 'Collected').toList();
-    final historyOrders = _orders.where((o) => o.status == 'Collected').toList();
+    final List<AdminOrder> liveOrders = orders.where((o) => o.status != 'Collected').toList();
+    final List<AdminOrder> historyOrders = orders.where((o) => o.status == 'Collected').toList();
 
     final screens = [
-      _buildLiveDashboard(liveOrders),
-      _buildHistoryList(historyOrders),
+      LivePage(liveOrders: liveOrders),
+      HistoryPage(historyOrders: historyOrders),
       ItemFormPage(),
     ];
 
@@ -106,27 +98,6 @@ class _AdminPageState extends State<AdminPage> {
           ),
         ],
       ),
-    );
-  }
-
-  // --- TAB 2: HISTORY LIST ---
-  Widget _buildHistoryList(List<AdminOrder> orders) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: orders.length,
-      itemBuilder: (context, index) {
-        final order = orders[index];
-        return Card(
-          color: Colors.grey[900],
-          margin: const EdgeInsets.only(bottom: 10),
-          child: ListTile(
-            leading: const Icon(Icons.check_circle, color: Colors.green),
-            title: Text(order.id, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-            subtitle: Text("${order.userName} • ₹${order.total}", style: const TextStyle(color: Colors.white70)),
-            trailing: Text(order.time, style: const TextStyle(color: Colors.grey)),
-          ),
-        );
-      },
     );
   }
 

@@ -30,7 +30,7 @@ const orderSchema = new mongoose.Schema(
         ],
         orderDate: {
             type: Date,
-            required: true
+            default: Date.now()
         },
         totalAmount: {
             type: Number,
@@ -45,11 +45,12 @@ const orderSchema = new mongoose.Schema(
     {timestamps:true}
 )
 
-orderSchema.pre("save", function(){
+orderSchema.pre("save", function(next){
     var total = 0
     this.orderItems.forEach(item => {
         total += item.itemPrice * item.quantity
     });
     this.totalAmount = total
+    next()
 })
 export const Order = await mongoose.model("Order", orderSchema)

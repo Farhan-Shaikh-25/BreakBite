@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_messaging/firebase_messaging.dart";
-import "package:frontend/pages/admin_page.dart";
+import "package:frontend/admin_widgets/admin_page.dart";
 import "package:frontend/pages/dashboard_page.dart";
 import "package:frontend/pages/landing_page.dart";
 import "package:frontend/pages/loading_page.dart";

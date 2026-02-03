@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/admin_page.dart';
+import 'package:frontend/admin_widgets/admin_page.dart';
 import 'package:http/http.dart';
 import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/utils/PageNav.dart';
