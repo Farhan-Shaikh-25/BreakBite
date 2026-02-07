@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/admin_utils/admin_order_provider.dart';
 import 'package:frontend/admin_widgets/admin_page.dart';
 import 'package:http/http.dart';
 import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/utils/PageNav.dart';
 import 'package:frontend/utils/auth_check.dart';
 import 'package:frontend/widgets/breakbite_textbox.dart';
+import 'package:provider/provider.dart';
 
 import 'dashboard_page.dart';
 
@@ -91,8 +93,15 @@ class LoginPage extends StatelessWidget{
                                 child: DashboardPage(
                                     uname: userData['message'])));
                           } else{
-                            Navigator.of(context).pushReplacement(PageNav(
-                                child: AdminPage()));
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (routeContext) => ChangeNotifierProvider<AdminOrderProvider>(
+                                  create: (_) => AdminOrderProvider()..fetchOrders(),
+                                  // The Builder ensures AdminPage is a child with a clean context
+                                  child: AdminPage(),
+                                ),
+                              ),
+                            );
                           }
                         }
                         else {

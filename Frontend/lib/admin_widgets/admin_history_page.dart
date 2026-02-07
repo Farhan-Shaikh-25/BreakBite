@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/admin_utils/admin_order.dart';
+import 'package:frontend/admin_utils/admin_order_provider.dart';
+import 'package:provider/provider.dart';
 
-class HistoryPage extends StatefulWidget{
-  final List<AdminOrder> historyOrders;
-
-  const HistoryPage({super.key, required this.historyOrders});
-
-  @override
-  State<HistoryPage> createState() => HistoryPageState();
-}
-
-class HistoryPageState extends State<HistoryPage>{
-
+class HistoryPage extends StatelessWidget{
+  const HistoryPage({super.key});
+  
   @override
   Widget build(BuildContext context) {
+    final historyOrders = context.watch<AdminOrderProvider>().historyOrders;
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: widget.historyOrders.length,
+      itemCount: historyOrders.length,
       itemBuilder: (context, index) {
-        final order = widget.historyOrders[index];
+        final order = historyOrders[index];
         return Card(
           color: Colors.grey[900],
           margin: const EdgeInsets.only(bottom: 10),

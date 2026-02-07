@@ -38,19 +38,19 @@ const orderSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ["Processing", "Prepared", "Completed"],
-            required: true
+            enum: ["Processing", "Preparing", "Completed"],
+            required: true,
+            default: "Processing"
         }
     },
     {timestamps:true}
 )
 
-orderSchema.pre("save", function(next){
+orderSchema.pre("save", function(){
     var total = 0
     this.orderItems.forEach(item => {
         total += item.itemPrice * item.quantity
     });
     this.totalAmount = total
-    next()
 })
-export const Order = await mongoose.model("Order", orderSchema)
+export const Order = mongoose.model("Order", orderSchema)

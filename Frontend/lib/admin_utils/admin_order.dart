@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AdminOrder{
-  final String uid;
+  final String id, uid;
   final List orderItems;
   final DateTime orderDate;
   final int totalAmount;
-  final String status;
+  String status;
 
-  const AdminOrder({
+  AdminOrder({
+   required this.id,
    required this.uid,
    required this.orderItems,
    required this.orderDate,
@@ -17,7 +18,8 @@ class AdminOrder{
 
   factory AdminOrder.fromJson(Map<String, dynamic> json) {
     return AdminOrder(
-      uid: json['uid'],
+      id: json['_id'],
+      uid: json['userId'],
       orderItems: json['orderItems'],
       orderDate: DateTime.parse(json['orderDate']),
       totalAmount: json['totalAmount'].toDouble(),

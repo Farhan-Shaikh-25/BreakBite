@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'admin_page.dart'; // Import to access AdminOrder model
+import 'package:frontend/admin_utils/admin_order_provider.dart';
+import 'package:frontend/admin_widgets/admin_live_page.dart';
+import 'package:provider/provider.dart';
+import '../admin_utils/admin_order.dart';
 
 class AdminOrderDetailsPage extends StatelessWidget {
   final AdminOrder order;
@@ -9,6 +11,7 @@ class AdminOrderDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final orderProvider = context.read<AdminOrderProvider>();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -26,19 +29,16 @@ class AdminOrderDetailsPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(order.id, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.orange)),
-                Text(order.time, style: const TextStyle(color: Colors.grey)),
+                Text(order.orderDate.toString(), style: const TextStyle(color: Colors.grey)),
               ],
             ),
-            Text("Customer: ${order.userName}", style: const TextStyle(fontSize: 18, color: Colors.white70)),
-
             const SizedBox(height: 30),
-
             // Item List
             const Text("Items Ordered:", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
-                itemCount: order.items.length,
+                itemCount: order.orderItems.length,
                 itemBuilder: (context, index) {
                   return Container(
                     margin: const EdgeInsets.only(bottom: 10),
@@ -47,8 +47,12 @@ class AdminOrderDetailsPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(order.items[index], style: const TextStyle(color: Colors.white, fontSize: 16)),
-                        const Text("x1", style: TextStyle(color: Colors.orange)),
+                        Text(order.orderItems[index]['itemName'], style: const TextStyle(color: Colors.white, fontSize: 16)),
+                        Text(
+                            "${order.orderItems[index]['quantity'].toString()} x ₹${order.orderItems[index]['itemPrice'].toString()}"
+                            , style: TextStyle(color: Colors.orange)),
+                        Text("₹${(order.orderItems[index]['quantity'] * order.orderItems[index]['itemPrice']).toString()}"
+                            , style: TextStyle(color: Colors.orange)),
                       ],
                     ),
                   );
@@ -62,44 +66,48 @@ class AdminOrderDetailsPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text("Total Amount", style: TextStyle(color: Colors.white70, fontSize: 16)),
-                Text("₹${order.total}", style: const TextStyle(color: Colors.greenAccent, fontSize: 24, fontWeight: FontWeight.bold)),
+                Text("₹${order.totalAmount}", style: const TextStyle(color: Colors.greenAccent, fontSize: 24, fontWeight: FontWeight.bold)),
               ],
             ),
             const SizedBox(height: 20),
 
             // --- ACTION BUTTONS (The Control Panel) ---
-            if (order.status == 'Pending') ...[
+            if (order.status == 'Processing') ...[
               SizedBox(
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                  onPressed: () => Navigator.pop(context, "Cooking"), // Return new status
+                  onPressed: () {
+                    orderProvider.updateStatus(order.id, "Preparing");
+                    // order.status = "Preparing";
+                    // Navigator.of(context).pushReplacement(
+                    //     MaterialPageRoute(builder: (context) => LivePage())
+                    // );
+                    Navigator.of(context).pop();
+                  }, // Return new status
                   child: const Text("ACCEPT & COOK", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                 ),
               ),
-            ] else if (order.status == 'Cooking') ...[
+            ] else if (order.status == 'Preparing') ...[
               SizedBox(
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                  onPressed: () => Navigator.pop(context, "Ready"),
+                  onPressed: () {
+                    orderProvider.updateStatus(order.id, "Completed");
+                    // order.status = "Completed";
+                    // Navigator.of(context).pushReplacement(
+                    //   MaterialPageRoute(builder: (context) => LivePage())
+                    // );
+                    Navigator.of(context).pop();
+
+                  },
                   child: const Text("MARK AS READY", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                 ),
               ),
-            ] else if (order.status == 'Ready') ...[
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                  onPressed: () => Navigator.pop(context, "Collected"),
-                  child: const Text("COMPLETE ORDER", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold)),
-                ),
-              ),
             ],
-
             const SizedBox(height: 20),
           ],
         ),

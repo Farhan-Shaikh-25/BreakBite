@@ -6,9 +6,9 @@ import '../widgets/breakbite_textbox.dart';
 class ItemFormPage extends StatelessWidget{
   ItemFormPage({super.key});
 
-  final itemName = TextEditingController();
-  final itemPrice = TextEditingController();
-  final category = TextEditingController();
+  final TextEditingController itemName = TextEditingController();
+  final TextEditingController itemPrice = TextEditingController();
+  final TextEditingController category = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
