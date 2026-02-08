@@ -107,14 +107,14 @@ class _SignupPageState extends State<SignupPage> {
                     child: InkWell(
                       onTap: () async {
                         try {
-                          User? user = await AuthCheck.signUp(uemail.text.trim(), upass.text.trim());
+                          User? user = await AuthCheck.signUp(uemail.text.trim(), upass.text.trim(), uname.text.trim());
 
                           if (user != null) {
                             String? token = await user.getIdToken();
 
                             // NOTE: Use 10.0.2.2 if on Android Emulator
                             final response = await post(
-                                Uri.parse("http://localhost:5000/user/signup"),
+                                Uri.parse("http://192.168.1.4:5000/user/signup"),
                                 headers: {
                                   "Content-Type": "application/json",
                                   "Authorization": "Bearer $token"

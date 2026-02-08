@@ -1,7 +1,23 @@
 import { Order } from "../models/order.models.js";
+import { User } from "../models/user.models.js";
 
 export const updateStatusController = async (req) => {
     const {id, newStatus} = req.body
     const order = await Order.findByIdAndUpdate({ _id : id }, {status : newStatus})
+    if (newStatus == "Completed") {
+        const user = await User.findById(order.userId);
+
+        if (user && user.fcmToken) {
+            const message = {
+                notification: {
+                    title: "BreakBite: Food is Ready!",
+                    body: `Order #${order._id.toString().slice(-4)} is ready for pickup.`,
+                },
+                token: user.fcmToken, 
+            };
+            await admin.messaging().send(message);
+            console.log("Notification sent successfully to:", user.email);
+        }
+    }
     return "Status Changed"
 }

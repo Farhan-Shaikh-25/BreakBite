@@ -18,7 +18,7 @@ class HistoryPage extends StatelessWidget{
           margin: const EdgeInsets.only(bottom: 10),
           child: ListTile(
             leading: const Icon(Icons.check_circle, color: Colors.green),
-            title: Text(order.uid, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            title: Text("Order #${order.id.substring(order.id.length - 4)}", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
             subtitle: Text("${order.uid} • ₹${order.totalAmount}", style: const TextStyle(color: Colors.white70)),
             trailing: Text(order.orderDate.toString(), style: const TextStyle(color: Colors.grey)),
           ),

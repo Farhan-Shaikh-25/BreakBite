@@ -2,6 +2,8 @@ import express from 'express'
 import { getOrderController } from '../controllers/getOrder.controller.js'
 import { addOrderController } from '../controllers/addOrder.controller.js'
 import { updateStatusController } from '../controllers/updateStatusController.js'
+import { authCheck } from '../middlewares/authCheck.js'
+import { getUserOrderController } from '../controllers/getUserOrder.controller.js'
 
 export const orderRoute = express.Router()
 
@@ -11,7 +13,13 @@ orderRoute.get("/", async (req,res) => {
     console.log("Data sent")
 })
 
-orderRoute.post("/add", async (req,res) => {
+orderRoute.get("/user", authCheck, async (req,res) => {
+    const msg = await getUserOrderController(req)
+    res.json({"message": msg})
+    console.log("User data sent")
+})
+
+orderRoute.post("/add", authCheck, async (req,res) => {
     const msg = await addOrderController(req)
     res.json({"message": msg})
     console.log("Order added")

@@ -1,5 +1,6 @@
 import express from 'express'
 import { addItemController } from '../controllers/addItem.controller.js'
+import { getItemController } from '../controllers/getItem.controller.js'
 
 export const itemRoute = express.Router()
 

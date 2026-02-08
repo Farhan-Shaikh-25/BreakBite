@@ -1,20 +1,26 @@
 import "package:flutter/material.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_messaging/firebase_messaging.dart";
-import "package:frontend/admin_widgets/admin_page.dart";
-import "package:frontend/pages/dashboard_page.dart";
-import "package:frontend/pages/landing_page.dart";
-import "package:frontend/pages/loading_page.dart";
+import "package:frontend/pages/auth_gate.dart";
+import "package:frontend/utils/notification_services.dart";
 import "package:frontend/utils/order_data.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:provider/provider.dart";
 import "firebase_options.dart";
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Handling a background message: ${message.messageId}");
+}
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  final notificationService = NotificationService();
+  notificationService.initNotifications();
   runApp(
       ChangeNotifierProvider(
           create: (context) => OrderData(orderId: "1236"),
@@ -50,9 +56,7 @@ class MyApp extends StatelessWidget{
         ),
       ),
       title: "BreakBite",
-      home: LoadingPage(child: LandingPage()),
-      // home: DashboardPage(uname: "BreakBit User"),
-      // home: AdminPage(),
+      home: const AuthGate()
     );
   }
 }

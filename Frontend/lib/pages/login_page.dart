@@ -11,6 +11,8 @@ import 'package:frontend/utils/auth_check.dart';
 import 'package:frontend/widgets/breakbite_textbox.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/menu_provider.dart';
+import '../utils/order_provider.dart';
 import 'dashboard_page.dart';
 
 class LoginPage extends StatelessWidget{
@@ -76,7 +78,7 @@ class LoginPage extends StatelessWidget{
                         if(user!=null) {
                           final String? token = await user.getIdToken();
                           final udata = await get(
-                            Uri.parse("http://localhost:5000/user/login/"),
+                            Uri.parse("http://192.168.1.4:5000/user/login/"),
                             headers: {
                               "Content-Type": "application/json",
                               "Authorization": "Bearer $token",
@@ -89,15 +91,24 @@ class LoginPage extends StatelessWidget{
                           );
                           final userData = jsonDecode(udata.body);
                           if(userData['userType'] == 'normal') {
-                            Navigator.of(context).pushReplacement(PageNav(
-                                child: DashboardPage(
-                                    uname: userData['message'])));
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => MultiProvider(
+                                  providers: [
+                                    // Initialize MenuProvider and trigger the fetch immediately
+                                    ChangeNotifierProvider(create: (_) => MenuProvider()..fetchMenu()),
+                                    // Initialize OrderProvider (Cart)
+                                    ChangeNotifierProvider(create: (_) => OrderProvider()),
+                                  ],
+                                  child: DashboardPage(uname: FirebaseAuth.instance.currentUser?.displayName ?? "User"),
+                                ),
+                              ),
+                            );
                           } else{
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (routeContext) => ChangeNotifierProvider<AdminOrderProvider>(
                                   create: (_) => AdminOrderProvider()..fetchOrders(),
-                                  // The Builder ensures AdminPage is a child with a clean context
                                   child: AdminPage(),
                                 ),
                               ),

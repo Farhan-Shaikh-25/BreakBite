@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AdminOrder{
-  final String id, uid;
+  final String id, uid, orderDate;
   final List orderItems;
-  final DateTime orderDate;
   final int totalAmount;
   String status;
 
@@ -21,8 +20,8 @@ class AdminOrder{
       id: json['_id'],
       uid: json['userId'],
       orderItems: json['orderItems'],
-      orderDate: DateTime.parse(json['orderDate']),
-      totalAmount: json['totalAmount'].toDouble(),
+      orderDate: json['createdAt'].toString().replaceFirst('T', ' ').substring(0,16),
+      totalAmount: int.parse(json['totalAmount'].toString()),
       status: json['status'],
     );
   }

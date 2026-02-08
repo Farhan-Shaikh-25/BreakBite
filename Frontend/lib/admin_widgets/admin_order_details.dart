@@ -78,13 +78,9 @@ class AdminOrderDetailsPage extends StatelessWidget {
                 height: 55,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                  onPressed: () {
-                    orderProvider.updateStatus(order.id, "Preparing");
-                    // order.status = "Preparing";
-                    // Navigator.of(context).pushReplacement(
-                    //     MaterialPageRoute(builder: (context) => LivePage())
-                    // );
-                    Navigator.of(context).pop();
+                  onPressed: () async {
+                    await orderProvider.updateStatus(order.id, "Preparing");
+                    if(context.mounted) Navigator.of(context).pop();
                   }, // Return new status
                   child: const Text("ACCEPT & COOK", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                 ),
@@ -95,16 +91,11 @@ class AdminOrderDetailsPage extends StatelessWidget {
                 height: 55,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                  onPressed: () {
-                    orderProvider.updateStatus(order.id, "Completed");
-                    // order.status = "Completed";
-                    // Navigator.of(context).pushReplacement(
-                    //   MaterialPageRoute(builder: (context) => LivePage())
-                    // );
-                    Navigator.of(context).pop();
-
+                  onPressed: () async {
+                    await orderProvider.updateStatus(order.id, "Completed");
+                    if(context.mounted) Navigator.of(context).pop();
                   },
-                  child: const Text("MARK AS READY", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                  child: const Text("MARK AS   READY", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                 ),
               ),
             ],

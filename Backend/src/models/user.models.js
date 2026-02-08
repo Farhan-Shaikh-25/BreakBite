@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema(
             unique: true,
             required: true
         },
+        fcmToken: {
+            type: String,
+            default: ""
+        },
         fullName : {
             type: String,
             required: true

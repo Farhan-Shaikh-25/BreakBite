@@ -27,7 +27,7 @@ class AdminOrderProvider extends ChangeNotifier {
     notifyListeners(); // Tells the UI to show the data
   }
 
-  void updateStatus(String orderId, String newStatus) async {
+  Future<void> updateStatus(String orderId, String newStatus) async {
     int index = _orders.indexWhere((o) => o.id == orderId);
     if (index != -1) {
       await patch(
