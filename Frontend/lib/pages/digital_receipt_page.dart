@@ -39,7 +39,7 @@ class _DigitalReceiptPageState extends State<DigitalReceiptPage> with SingleTick
 
     try {
       final response = await patch(
-        Uri.parse("https://breakbite.onrender.com:5000/order/updatecollected"),
+        Uri.parse("https://breakbite.onrender.com/order/updatecollected"),
         headers: {
           "Content-Type": "application/json"
         },
@@ -61,19 +61,26 @@ class _DigitalReceiptPageState extends State<DigitalReceiptPage> with SingleTick
   Future<void> _disableSecureMode() async {
     await ScreenProtector.protectDataLeakageOff(); // Allow Screenshots again
   }
+
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_timeLeft > 0) {
         setState(() => _timeLeft--);
       } else {
         _timer?.cancel();
-        Navigator.pop(context); // Auto-close when time is up
+        _handleTimeout();// Auto-close when time is up
       }
     });
   }
 
+  void _handleTimeout() async{
+    await _markAsCollected();
+    if(mounted) Navigator.pop(context);
+  }
+
   @override
   void dispose() {
+    _markAsCollected();
     _disableSecureMode();
     _controller.dispose();
     _timer?.cancel();

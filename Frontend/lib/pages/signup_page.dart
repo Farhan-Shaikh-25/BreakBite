@@ -90,7 +90,7 @@ class _SignupPageState extends State<SignupPage> {
                         const SizedBox(height: 10),
                         BreakBiteTextBox(hint: "Email", icon: Icons.email, keyboard: TextInputType.emailAddress, cont: uemail),
                         const SizedBox(height: 10),
-                        BreakBiteTextBox(hint: "Password", icon: Icons.password, obscure: true, cont: upass),
+                        BreakBiteTextBox(hint: "Password", icon: Icons.password, cont: upass),
                         const SizedBox(height: 10),
                         BreakBiteTextBox(hint: "Phone Number", icon: Icons.phone, keyboard: TextInputType.phone, cont: unum),
                         const SizedBox(height: 10),
@@ -114,7 +114,7 @@ class _SignupPageState extends State<SignupPage> {
 
                             // NOTE: Use 10.0.2.2 if on Android Emulator
                             final response = await post(
-                                Uri.parse("https://breakbite.onrender.com:5000/user/signup"),
+                                Uri.parse("https://breakbite.onrender.com/user/signup"),
                                 headers: {
                                   "Content-Type": "application/json",
                                   "Authorization": "Bearer $token"

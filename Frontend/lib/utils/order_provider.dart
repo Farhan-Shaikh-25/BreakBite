@@ -57,7 +57,7 @@ class OrderProvider extends ChangeNotifier{
     final user = FirebaseAuth.instance.currentUser;
     final String? token = await user?.getIdToken();
     await post(
-        Uri.parse("https://breakbite.onrender.com:5000/order/add"),
+        Uri.parse("https://breakbite.onrender.com/order/add"),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token'
@@ -85,7 +85,7 @@ class OrderProvider extends ChangeNotifier{
       final token = await user?.getIdToken();
 
       final response = await get(
-        Uri.parse("https://breakbite.onrender.com:5000/order/user"), // Verify this route matches your backend!
+        Uri.parse("https://breakbite.onrender.com/order/user"), // Verify this route matches your backend!
         headers: {
           "Authorization": "Bearer $token",
         },

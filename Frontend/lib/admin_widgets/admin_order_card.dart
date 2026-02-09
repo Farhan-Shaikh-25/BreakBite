@@ -13,7 +13,7 @@ class AdminOrderCard extends StatelessWidget{
     Color statusColor = Colors.grey;
     if (order.status == 'Processing') statusColor = Colors.orange;
     if (order.status == 'Preparing') statusColor = Colors.blue;
-    if (order.status == 'Completed') statusColor = Colors.green;
+    if (order.status == 'Completed' || order.status == 'Collected') statusColor = Colors.green;
 
     return GestureDetector(
       onTap: () {

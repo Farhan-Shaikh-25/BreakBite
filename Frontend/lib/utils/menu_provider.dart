@@ -16,7 +16,7 @@ class MenuProvider extends ChangeNotifier {
     try {
       // Replace with your machine's IP if testing on a physical device
       final response = await get(
-        Uri.parse("https://breakbite.onrender.com:5000/item"),
+        Uri.parse("https://breakbite.onrender.com/item"),
       );
 
       if (response.statusCode == 200) {

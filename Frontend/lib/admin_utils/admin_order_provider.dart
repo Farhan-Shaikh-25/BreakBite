@@ -12,14 +12,14 @@ class AdminOrderProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   // Filtered Lists
-  List<AdminOrder> get liveOrders => _orders.where((o) => o.status != 'Completed').toList();
-  List<AdminOrder> get historyOrders => _orders.where((o) => o.status == 'Completed').toList();
+  List<AdminOrder> get liveOrders => _orders.where((o) => o.status != 'Completed' && o.status != "Collected").toList();
+  List<AdminOrder> get historyOrders => _orders.where((o) => o.status == 'Completed' || o.status == "Collected").toList();
 
   Future<void> fetchOrders() async {
     _isLoading = true;
     notifyListeners(); // Tells the UI to show the spinner
 
-    final msg = await get(Uri.parse("http://localhost:5000/order/"));
+    final msg = await get(Uri.parse("https://breakbite.onrender.com/order/"));
     final List<dynamic> data = jsonDecode(msg.body)['message'];
 
     _orders = data.map((json) => AdminOrder.fromJson(json)).toList();
@@ -31,7 +31,7 @@ class AdminOrderProvider extends ChangeNotifier {
     int index = _orders.indexWhere((o) => o.id == orderId);
     if (index != -1) {
       await patch(
-          Uri.parse("http://localhost:5000/order/updatestatus"),
+          Uri.parse("https://breakbite.onrender.com/order/updatestatus"),
           headers: {
             'Content-Type' : 'application/json'
           },

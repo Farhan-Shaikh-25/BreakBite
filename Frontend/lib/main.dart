@@ -3,9 +3,7 @@ import "package:firebase_core/firebase_core.dart";
 import "package:firebase_messaging/firebase_messaging.dart";
 import "package:frontend/pages/auth_gate.dart";
 import "package:frontend/utils/notification_services.dart";
-import "package:frontend/utils/order_data.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:provider/provider.dart";
 import "firebase_options.dart";
 
 @pragma('vm:entry-point')
@@ -22,10 +20,7 @@ void main() async{
   final notificationService = NotificationService();
   notificationService.initNotifications();
   runApp(
-      ChangeNotifierProvider(
-          create: (context) => OrderData(orderId: "1236"),
-          child: MyApp(),
-      )
+      MyApp()
   );
 }
 

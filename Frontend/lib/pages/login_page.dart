@@ -78,7 +78,7 @@ class LoginPage extends StatelessWidget{
                         if(user!=null) {
                           final String? token = await user.getIdToken();
                           final udata = await get(
-                            Uri.parse("https://breakbite.onrender.com:5000/user/login/"),
+                            Uri.parse("https://breakbite.onrender.com/user/login/"),
                             headers: {
                               "Content-Type": "application/json",
                               "Authorization": "Bearer $token",
