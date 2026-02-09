@@ -27,7 +27,6 @@ class NotificationService {
 
     // B. Get the Device Token (You need this for your Backend!)
     final fcmToken = await _firebaseMessaging.getToken();
-    print('FCM Token: $fcmToken');
     await sendTokenToBackend(fcmToken!);
 
     // C. Initialize Local Notifications (For Foresground Popups)
@@ -41,7 +40,6 @@ class NotificationService {
 
     // D. Listen for Foreground Messages
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
       if (message.notification != null) {
         _showLocalNotification(message);
       }

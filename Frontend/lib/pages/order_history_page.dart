@@ -12,6 +12,7 @@ class OrderHistoryPage extends StatefulWidget {
 }
 
 class _OrderHistoryPageState extends State<OrderHistoryPage> {
+
   @override
   void initState() {
     super.initState();
@@ -124,8 +125,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async { // 1. Make this async
+                  // 2. Await the navigation
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => DigitalReceiptPage(
@@ -134,6 +136,12 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                       ),
                     ),
                   );
+
+                  // 3. This runs AFTER the user exits the receipt page
+                  if (context.mounted) {
+                    // Refresh the orders from the backend to show "Collected"
+                    context.read<OrderProvider>().fetchMyOrders();
+                  }
                 },
                 icon: const Icon(Icons.qr_code_scanner, color: Colors.black),
                 label: const Text(
