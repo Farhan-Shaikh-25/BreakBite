@@ -6,6 +6,7 @@ export const updateFcmToken = async (req, res) => {
     try {
         const { fcmToken } = req.body;
         const uid = req.user.uid
+        console.log(fcmToken)
 
         if (!uid || !fcmToken) {
             return res.status(400).json({ message: "UID and Token are required" });
@@ -17,6 +18,8 @@ export const updateFcmToken = async (req, res) => {
             { fcmToken: fcmToken },
             { new: true }
         );
+
+        console.log(user)
 
         if (!user) {
             return res.status(404).json({ message: "User not found in MongoDB" });

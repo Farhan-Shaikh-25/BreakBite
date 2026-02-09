@@ -28,9 +28,9 @@ class NotificationService {
     // B. Get the Device Token (You need this for your Backend!)
     final fcmToken = await _firebaseMessaging.getToken();
     print('FCM Token: $fcmToken');
-    // TODO: Send this token to your server (we will do this later)
+    await sendTokenToBackend(fcmToken!);
 
-    // C. Initialize Local Notifications (For Foreground Popups)
+    // C. Initialize Local Notifications (For Foresground Popups)
     const AndroidInitializationSettings androidSettings =
     AndroidInitializationSettings('@mipmap/ic_launcher'); // Ensure app icon exists
 
@@ -71,14 +71,14 @@ class NotificationService {
   Future<void> sendTokenToBackend(String token) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
-    final token = await user.getIdToken();
+    final tok = await user.getIdToken();
 
     try {
       final response = await patch(
         Uri.parse("https://breakbite.onrender.com/users/update-fcm"),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer $token"
+          "Authorization": "Bearer $tok"
         },
         body: jsonEncode({
           "fcmToken": token,
