@@ -5,7 +5,7 @@ import { admin } from "../utils/firebase_app.js";
 
 export const updateStatusController = async (req) => {
     const {id, newStatus} = req.body
-    const order = await Order.findByIdAndUpdate({ _id : id }, {status : newStatus})
+    const order = await Order.findByIdAndUpdate({ _id : id }, {status : newStatus}, {new : true})
     if (newStatus == "Completed") {
         const user = await User.findById(order.userId);
 
