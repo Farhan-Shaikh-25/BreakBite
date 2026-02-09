@@ -17,14 +17,4 @@ app.use('/user', userRoute)
 app.use('/item', itemRoute)
 app.use('/order', orderRoute)
 
-app.get("/",(req,res) => {
-    console.log("request recieved")
-    res.send("Hello There BreakBite")
-})
-
-// app.get("/signup/",authCheck,(req,res) => {
-//     console.log("request recieved")
-//     res.send(`Hello There BreakBite ${req.user.email}`)
-// })
-
 app.listen( process.env.PORT || 5000 , () => {console.log("Server Started")})

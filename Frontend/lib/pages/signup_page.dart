@@ -114,7 +114,7 @@ class _SignupPageState extends State<SignupPage> {
 
                             // NOTE: Use 10.0.2.2 if on Android Emulator
                             final response = await post(
-                                Uri.parse("http://192.168.1.4:5000/user/signup"),
+                                Uri.parse("https://breakbite.onrender.com:5000/user/signup"),
                                 headers: {
                                   "Content-Type": "application/json",
                                   "Authorization": "Bearer $token"

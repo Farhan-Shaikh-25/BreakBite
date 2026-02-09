@@ -75,7 +75,7 @@ class NotificationService {
 
     try {
       final response = await patch(
-        Uri.parse("http://192.168.1.4:5000/users/update-fcm"),
+        Uri.parse("https://breakbite.onrender.com:5000/users/update-fcm"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token"

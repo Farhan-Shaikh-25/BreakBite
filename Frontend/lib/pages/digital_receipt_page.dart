@@ -39,7 +39,7 @@ class _DigitalReceiptPageState extends State<DigitalReceiptPage> with SingleTick
 
     try {
       final response = await patch(
-        Uri.parse("http://192.168.1.4:5000/order/updatecollected"),
+        Uri.parse("https://breakbite.onrender.com:5000/order/updatecollected"),
         headers: {
           "Content-Type": "application/json"
         },
