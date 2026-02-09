@@ -15,13 +15,24 @@ class OrderProvider extends ChangeNotifier{
     return index != -1 ? _orderItems[index].quantity : 0;
   }
 
-  void addToCart(Item item){
+  void addToCart(Item item, BuildContext context){
     int index = _orderItems.indexWhere((it) => it.itemId == item.itemId);
-    if(index != -1) {
-      _orderItems[index].quantity+=1;
-    }else {
-      item.quantity = 1;
-      _orderItems.add(item);
+    if (index != -1) {
+      // 2. Check Quantity Limit (Max 3)
+      if (_orderItems[index].quantity < 3) {
+        _orderItems[index].quantity++;
+      } else {
+        showToast("Maximum 3 of the same item allowed!", context);
+        return;
+      }
+    } else {
+      // 3. Check Total Unique Items Limit (Max 5)
+      if (_orderItems.length < 5) {
+        _orderItems.add(item..quantity = 1);
+      } else {
+        showToast("You can only order up to 5 different items!", context);
+        return;
+      }
     }
     notifyListeners();
   }
@@ -90,6 +101,16 @@ class OrderProvider extends ChangeNotifier{
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  void showToast(String message, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: TextStyle(fontFamily: 'Poppins', color: Colors.black)),
+        backgroundColor: Colors.yellow,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 }
 

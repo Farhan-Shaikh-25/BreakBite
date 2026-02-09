@@ -2,6 +2,7 @@ import express from "express"
 import { authCheck } from "../middlewares/authCheck.js"
 import { signupController } from "../controllers/signup.controller.js"
 import { loginController } from "../controllers/login.controller.js"
+import { updateFcmToken, clearFcmToken } from "../controllers/fcm.controller.js";
 
 export const userRoute = express.Router()
 
@@ -17,3 +18,7 @@ userRoute.get('/login', authCheck, async (req,res) => {
 
     res.json({"message": msg, "userType": userType})
 })
+
+userRoute.patch("/update-fcm", authCheck, updateFcmToken);
+
+userRoute.patch("/clear-fcm", authCheck, clearFcmToken);

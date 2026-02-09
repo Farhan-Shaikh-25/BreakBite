@@ -62,7 +62,7 @@ class LoginPage extends StatelessWidget{
                       children: [
                         BreakBiteTextBox(hint: "Email", icon: Icons.email, cont: uemail,),
                         const SizedBox(height: 10),
-                        BreakBiteTextBox(hint: "Password", icon: Icons.password, cont: upass,),
+                        BreakBiteTextBox(hint: "Password", icon: Icons.password, cont: upass, obscure: true,),
                       ],
                     ),
                   ),

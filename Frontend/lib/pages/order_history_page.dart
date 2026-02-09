@@ -78,6 +78,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
     switch (order.status) {
       case 'Completed': statusColor = Colors.green; break;
       case 'Processing': statusColor = Colors.orange; break;
+      case 'Preparing': statusColor = Colors.blue; break;
+      case 'Collected': statusColor = Colors.grey; break;
       case 'Cancelled': statusColor = Colors.red; break;
       default: statusColor = Colors.blue;
     }

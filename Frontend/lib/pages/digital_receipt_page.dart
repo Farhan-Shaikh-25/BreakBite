@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:screen_protector/screen_protector.dart';
 
 class DigitalReceiptPage extends StatefulWidget {
@@ -15,6 +17,7 @@ class DigitalReceiptPage extends StatefulWidget {
 class _DigitalReceiptPageState extends State<DigitalReceiptPage> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   int _timeLeft = 120; // 2 Minutes validity
+  bool _isCollected = false;
   Timer? _timer;
 
   @override
@@ -28,6 +31,27 @@ class _DigitalReceiptPageState extends State<DigitalReceiptPage> with SingleTick
       duration: const Duration(seconds: 2),
       vsync: this,
     )..repeat();
+  }
+
+  Future<void> _markAsCollected() async {
+    if (_isCollected) return;
+    _isCollected = true;
+
+    try {
+      final response = await patch(
+        Uri.parse("http://192.168.1.4:5000/order/updatecollected"),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode({"id": widget.orderId})
+      );
+
+      if (response.statusCode == 200) {
+        print("Order marked as collected successfully.");
+      }
+    } catch (e) {
+      print("Error marking order as collected: $e");
+    }
   }
 
   Future<void> _enableSecureMode() async {

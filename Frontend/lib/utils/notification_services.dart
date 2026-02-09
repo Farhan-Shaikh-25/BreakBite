@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart';
 
 // 1. Background Message Handler (Must be OUTSIDE any class)
 
@@ -62,5 +66,30 @@ class NotificationService {
       body: message.notification?.body,
       notificationDetails: platformDetails,
     );
+  }
+
+  Future<void> sendTokenToBackend(String token) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    final token = await user.getIdToken();
+
+    try {
+      final response = await patch(
+        Uri.parse("http://192.168.1.4:5000/users/update-fcm"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode({
+          "fcmToken": token,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("Backend: FCM Token stored successfully.");
+      }
+    } catch (e) {
+      print("Backend Error: Could not save FCM token: $e");
+    }
   }
 }

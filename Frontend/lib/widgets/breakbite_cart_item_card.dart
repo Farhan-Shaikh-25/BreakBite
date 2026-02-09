@@ -87,7 +87,7 @@ class CartItemCard extends StatelessWidget {
                 ),
                 _buildIconButton(
                   icon: Icons.add,
-                  onTap: () => orderProvider.addToCart(item),
+                  onTap: () => orderProvider.addToCart(item, context),
                 ),
               ],
             ),

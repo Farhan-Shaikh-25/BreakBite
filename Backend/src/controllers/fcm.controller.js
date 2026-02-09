@@ -1,9 +1,11 @@
-import User from "../models/user.model.js";
+import { User } from "../models/user.models.js";
+
 
 // 1. Save or Update the Token
 export const updateFcmToken = async (req, res) => {
     try {
-        const { uid, fcmToken } = req.body;
+        const { fcmToken } = req.body;
+        const uid = req.user.uid
 
         if (!uid || !fcmToken) {
             return res.status(400).json({ message: "UID and Token are required" });
@@ -29,7 +31,7 @@ export const updateFcmToken = async (req, res) => {
 // 2. Clear Token on Logout
 export const clearFcmToken = async (req, res) => {
     try {
-        const { uid } = req.body;
+        const uid = req.user.uid
 
         await User.findOneAndUpdate({ uid: uid }, { fcmToken: "" });
 

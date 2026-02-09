@@ -4,6 +4,7 @@ import { addOrderController } from '../controllers/addOrder.controller.js'
 import { updateStatusController } from '../controllers/updateStatusController.js'
 import { authCheck } from '../middlewares/authCheck.js'
 import { getUserOrderController } from '../controllers/getUserOrder.controller.js'
+import { updateCollectedController } from '../controllers/updateCollected.controller.js'
 
 export const orderRoute = express.Router()
 
@@ -27,6 +28,12 @@ orderRoute.post("/add", authCheck, async (req,res) => {
 
 orderRoute.patch("/updatestatus", async (req,res) => {
     const msg = await updateStatusController(req)
+    res.json({"message": msg})
+    console.log("Status Updated")
+})
+
+orderRoute.patch("/updatecollected", async (req,res) => {
+    const msg = await updateCollectedController(req)
     res.json({"message": msg})
     console.log("Status Updated")
 })

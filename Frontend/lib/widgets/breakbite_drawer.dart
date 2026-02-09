@@ -4,7 +4,8 @@ import 'package:frontend/pages/cart_page.dart';
 import 'package:frontend/pages/order_history_page.dart'; // Import your history page
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/utils/order_provider.dart';
-import 'package:provider/provider.dart'; // Import your login page
+import 'package:provider/provider.dart';
+import 'package:http/http.dart';// Import your login page
 
 class BreakBiteDrawer extends StatelessWidget {
   final String uname;
@@ -97,6 +98,23 @@ class BreakBiteDrawer extends StatelessWidget {
             iconColor: Colors.redAccent,
             textColor: Colors.redAccent,
             onTap: () async {
+              final user = FirebaseAuth.instance.currentUser;
+
+              if (user != null) {
+                try {
+                  final token = await user.getIdToken();
+                  await patch(
+                    Uri.parse("http://192.168.1.4:5000/users/clear-fcm"),
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Authorization": "Bearer $token"
+                    },
+                  );
+                  print("FCM Token cleared from database");
+                } catch (e) {
+                  print("Failed to clear token on backend: $e");
+                }
+              }
               await FirebaseAuth.instance.signOut();
               if (context.mounted) {
                 // Navigate back to Login and remove all previous routes

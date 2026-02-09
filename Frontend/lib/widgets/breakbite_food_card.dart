@@ -66,7 +66,7 @@ class BreakbiteFoodCard extends StatelessWidget {
                 // --- TOGGLE LOGIC ---
                 currentQty == 0
                     ? ElevatedButton(
-                  onPressed: () => orderProvider.addToCart(item),
+                  onPressed: () => orderProvider.addToCart(item, context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.yellow,
                     foregroundColor: Colors.black,
@@ -100,7 +100,7 @@ class BreakbiteFoodCard extends StatelessWidget {
                       IconButton(
                         visualDensity: VisualDensity.compact,
                         icon: const Icon(Icons.add, color: Colors.black, size: 20),
-                        onPressed: () => orderProvider.addToCart(item),
+                        onPressed: () => orderProvider.addToCart(item, context),
                       ),
                     ],
                   ),
