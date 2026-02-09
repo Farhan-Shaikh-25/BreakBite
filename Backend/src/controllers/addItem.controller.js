@@ -6,7 +6,6 @@ export const addItemController = async (req) => {
 
     if(itemExists) return "Item Exists!"
     const newItem = new Item({
-        itemId: "   89",
         itemName: req.body.itemName,
         itemPrice: req.body.itemPrice,
         category: req.body.category,

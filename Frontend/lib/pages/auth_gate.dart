@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../admin_utils/admin_order_provider.dart';
 import '../utils/menu_provider.dart';
+import '../utils/notification_services.dart';
 import '../utils/order_provider.dart'; // Your spinner widget
 
 class AuthGate extends StatelessWidget {
@@ -37,6 +38,8 @@ class AuthGate extends StatelessWidget {
               child: AdminPage(),
             );
           }
+          final notificationService = NotificationService();
+          notificationService.initNotifications();
           return MultiProvider(
             providers: [
               // Initialize MenuProvider and trigger the fetch immediately

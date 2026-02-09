@@ -17,8 +17,6 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform
   );
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  final notificationService = NotificationService();
-  notificationService.initNotifications();
   runApp(
       MyApp()
   );
