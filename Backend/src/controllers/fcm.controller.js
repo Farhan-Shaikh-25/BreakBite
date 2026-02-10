@@ -19,15 +19,15 @@ export const updateFcmToken = async (req, res) => {
             { new: true }
         );
 
-        console.log(user)
-
         if (!user) {
             return res.status(404).json({ message: "User not found in MongoDB" });
         }
-
-        res.status(200).json({ message: "FCM Token synced successfully" });
+        console.log("FCM Added")
+        console.log(user)
+        res.status(200).json({ "message": "FCM Token synced successfully" });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.log(error.message)
+        res.status(500).json({ "error": error.message });
     }
 };
 
@@ -38,8 +38,10 @@ export const clearFcmToken = async (req, res) => {
 
         await User.findOneAndUpdate({ uid: uid }, { fcmToken: "" });
 
-        res.status(200).json({ message: "FCM Token cleared" });
+        console.log("FCM Cleared")
+        res.status(200).json({ "message": "FCM Token cleared" });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.log(error.message)
+        res.status(500).json({ "error": error.message });
     }
 };

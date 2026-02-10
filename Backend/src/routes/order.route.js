@@ -11,13 +11,13 @@ export const orderRoute = express.Router()
 orderRoute.get("/", async (req,res) => {
     const msg = await getOrderController()
     res.json({"message": msg})
-    console.log("Data sent")
+    console.log("All Orders sent")
 })
 
 orderRoute.get("/user", authCheck, async (req,res) => {
     const msg = await getUserOrderController(req)
     res.json({"message": msg})
-    console.log("User data sent")
+    console.log("User Orders sent")
 })
 
 orderRoute.post("/add", authCheck, async (req,res) => {
@@ -35,5 +35,5 @@ orderRoute.patch("/updatestatus", async (req,res) => {
 orderRoute.patch("/updatecollected", async (req,res) => {
     const msg = await updateCollectedController(req)
     res.json({"message": msg})
-    console.log("Status Updated")
+    console.log("Order Collected")
 })

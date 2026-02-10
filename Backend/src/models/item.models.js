@@ -20,4 +20,4 @@ const itemSchema = new mongoose.Schema(
     {timestamps: true}
 )
 
-export const Item = await mongoose.model("Item", itemSchema)
+export const Item = mongoose.model("Item", itemSchema)

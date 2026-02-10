@@ -8,22 +8,13 @@ export const signupController = async (req) => {
     const pnum = req.body.upnum
     const sap = req.body.usap
 
-    console.log(req.user)
-    console.log(req.body)
-    console.log(token)
-    console.log(fname)
-    console.log(email)
-    console.log(password)
-    console.log(pnum)
-    console.log(sap)
-
     const userExists = await User.findOne({uid: token})
 
     if(userExists != null){ 
-        console.log("UE")
+        console.log("User Exists")
         return "User Already Exists!"
     }
-
+    
     const newUser = new User({
         uid : token,
         fullName : fname,
@@ -33,13 +24,6 @@ export const signupController = async (req) => {
         sapId : sap
     })
     await newUser.save()
-    console.log(req.user)
-    console.log(token)
-    console.log(fname)
-    console.log(email)
-    console.log(password)
-    console.log(pnum)
-    console.log(sap)
-    console.log("UC")
+    console.log("User Created")
     return "User Creaated Successfully"
 }

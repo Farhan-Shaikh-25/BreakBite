@@ -1,7 +1,6 @@
 import { Item } from "../models/item.models.js"
 
 export const addItemController = async (req) => {
-    console.log(req)
     const itemExists = await Item.findOne({itemName: req.body.itemName})
 
     if(itemExists) return "Item Exists!"
@@ -11,5 +10,6 @@ export const addItemController = async (req) => {
         category: req.body.category,
     })
     await newItem.save()
+    console.log("Item Created Succesfully")
     return "Item Created Succssfully"
 }
