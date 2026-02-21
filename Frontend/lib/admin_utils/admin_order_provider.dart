@@ -27,6 +27,13 @@ class AdminOrderProvider extends ChangeNotifier {
     notifyListeners(); // Tells the UI to show the data
   }
 
+  Future<void> fetchOrdersSilent() async {
+    final msg = await get(Uri.parse("https://breakbite.onrender.com/order/"));
+    final List<dynamic> data = jsonDecode(msg.body)['message'];
+    _orders = data.map((json) => AdminOrder.fromJson(json)).toList();
+    notifyListeners(); // Tells the UI to show the data
+  }
+
   Future<void> updateStatus(String orderId, String newStatus) async {
     int index = _orders.indexWhere((o) => o.id == orderId);
     if (index != -1) {

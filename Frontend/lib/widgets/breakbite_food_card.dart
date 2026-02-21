@@ -5,10 +5,12 @@ import '../utils/order_provider.dart';
 
 class BreakbiteFoodCard extends StatelessWidget {
   final Item item; // Pass the whole Item object for easier logic
+  final String imagePath;
 
   const BreakbiteFoodCard({
     super.key,
     required this.item,
+    required this.imagePath
   });
 
   @override
@@ -24,13 +26,23 @@ class BreakbiteFoodCard extends StatelessWidget {
         color: const Color(0xFF1A1A1A),
         border: Border.all(color: Colors.yellow, width: 1),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+              child: Image.asset(
+                imagePath,
+                height: 160,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
             // 🔹 Title
-            Text(
+            Padding(padding: EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+            children: [     Text(
               item.itemName,
               style: const TextStyle(
                 color: Colors.yellow,
@@ -107,9 +119,11 @@ class BreakbiteFoodCard extends StatelessWidget {
                 ),
               ],
             ),
+            ],
+          ),
+        ),
           ],
         ),
-      ),
     );
   }
 }

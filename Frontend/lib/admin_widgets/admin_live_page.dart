@@ -1,12 +1,37 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/admin_utils/admin_order_provider.dart';
 import 'package:frontend/admin_widgets/admin_order_card.dart';
 import 'package:frontend/admin_widgets/admin_stat_card.dart';
 import 'package:provider/provider.dart';
 
-class LivePage extends StatelessWidget{
+class LivePage extends StatefulWidget{
   const LivePage({super.key});
-  
+
+  @override
+  State<LivePage> createState() => _LivePageState();
+}
+
+class _LivePageState extends State<LivePage> {
+  Timer? tim;
+
+  @override
+  void initState() {
+    super.initState();
+    tim = Timer.periodic(const Duration(seconds: 5), (timer) { autoRef();});
+  }
+
+  void autoRef() {
+    context.read<AdminOrderProvider>().fetchOrdersSilent();
+  }
+
+  @override
+  void dispose() {
+    tim?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final liveOrders = context.watch<AdminOrderProvider>().liveOrders;

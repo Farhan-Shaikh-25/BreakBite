@@ -4,6 +4,6 @@ import { User } from "../models/user.models.js";
 export const getUserOrderController = async (req) => {
     const uid = req.user.uid
     const user = await User.findOne({uid: uid})
-    const orders = await Order.find({ userId: user._id }).sort({orderDate: -1})
+    const orders = await Order.find({ userId: user._id }).sort({createdAt: -1})
     return orders
 }

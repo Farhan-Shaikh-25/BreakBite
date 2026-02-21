@@ -8,6 +8,7 @@ import 'package:frontend/widgets/breakbite_spinner.dart';
 import '../pages/login_page.dart';
 import 'admin_history_page.dart';
 import 'admin_live_page.dart';
+import 'admin_report_page.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
@@ -67,6 +68,7 @@ class _AdminPageState extends State<AdminPage> {
       const LivePage(),
       const HistoryPage(),
       ItemFormPage(),
+      AdminReportPage()
     ];
 
     return Scaffold(
@@ -100,6 +102,7 @@ class _AdminPageState extends State<AdminPage> {
           BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: "Live Orders"),
           BottomNavigationBarItem(icon: Icon(Icons.history), label: "History"),
           BottomNavigationBarItem(icon: Icon(Icons.list), label: "Add Item"),
+          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Report"),
         ],
       ),
     );
