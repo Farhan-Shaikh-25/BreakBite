@@ -5,10 +5,12 @@ import { updateStatusController } from '../controllers/updateStatusController.js
 import { authCheck } from '../middlewares/authCheck.js'
 import { getUserOrderController } from '../controllers/getUserOrder.controller.js'
 import { updateCollectedController } from '../controllers/updateCollected.controller.js'
+import { adminCheck } from '../middlewares/adminCheck.js'
+import { getReportController } from '../controllers/getReport.controller.js'
 
 export const orderRoute = express.Router()
 
-orderRoute.get("/", async (req,res) => {
+orderRoute.get("/", adminCheck, async (req,res) => {
     const msg = await getOrderController()
     res.json({"message": msg})
     console.log("All Orders sent")
@@ -26,14 +28,20 @@ orderRoute.post("/add", authCheck, async (req,res) => {
     console.log("Order added")
 })
 
-orderRoute.patch("/updatestatus", async (req,res) => {
+orderRoute.patch("/updatestatus", adminCheck, async (req,res) => {
     const msg = await updateStatusController(req)
     res.json({"message": msg})
     console.log("Status Updated")
 })
 
-orderRoute.patch("/updatecollected", async (req,res) => {
+orderRoute.patch("/updatecollected", adminCheck, async (req,res) => {
     const msg = await updateCollectedController(req)
     res.json({"message": msg})
     console.log("Order Collected")
+})
+
+orderRoute.get("/:tr", adminCheck, async (req,res) => {
+    const msg = await getReportController(req)
+    res.json({"message": msg})
+    console.log("Report Sent")
 })
