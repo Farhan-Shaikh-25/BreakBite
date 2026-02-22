@@ -42,7 +42,7 @@ class _ReportPageState extends State<ReportPage> {
 
       print(response.body);
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        final data = jsonDecode(response.body)['message'];
 
         setState(() {
           totalSpent = data['totalSpend'] ?? 0;

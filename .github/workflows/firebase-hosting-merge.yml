@@ -11,10 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: cd frontend && flutter pub get && flutter build web --release
+      
+      # 1. Install Flutter
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      # 2. Build the app inside the frontend folder
+      - name: Build Flutter Web
+        run: |
+          cd frontend
+          flutter pub get
+          flutter build web --release
+          
+      # 3. Deploy to Firebase
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BREAKBITE_C33C3 }}
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_BREAKBITE_C33C3 }}' # Keep the exact secret name Firebase generated for you
           channelId: live
-          projectId: breakbite-c33c3
+          projectId: breakbite-c33c3 # Keep your actual project ID here
+          entryPoint: frontend # This tells Firebase to look inside the frontend folder for the configuration
