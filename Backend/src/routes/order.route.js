@@ -7,6 +7,7 @@ import { getUserOrderController } from '../controllers/getUserOrder.controller.j
 import { updateCollectedController } from '../controllers/updateCollected.controller.js'
 import { adminCheck } from '../middlewares/adminCheck.js'
 import { getReportController } from '../controllers/getReport.controller.js'
+import { getUserReportController } from '../controllers/getUserReport.controller.js'
 
 export const orderRoute = express.Router()
 
@@ -44,4 +45,10 @@ orderRoute.get("/:tr", adminCheck, async (req,res) => {
     const msg = await getReportController(req)
     res.json({"message": msg})
     console.log("Report Sent")
+})
+
+orderRoute.get("/userReport", authCheck, async (req,res) => {
+    const msg = await getUserReportController(req)
+    res.json({"message": msg})
+    console.log("User Report Sent")
 })
