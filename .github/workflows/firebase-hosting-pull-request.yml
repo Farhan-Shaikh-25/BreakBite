@@ -22,7 +22,7 @@ jobs:
       # 2. Navigate to the frontend folder and build the web app
       - name: Install dependencies and build
         run: |
-          cd frontend
+          cd Frontend
           flutter pub get
           flutter build web --release
           
@@ -32,4 +32,4 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BREAKBITE_C33C3 }}
           projectId: breakbite-c33c3
-          entryPoint: frontend
+          entryPoint: Frontend
