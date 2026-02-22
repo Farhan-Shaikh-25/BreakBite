@@ -62,7 +62,7 @@ export const getReportController = async (req) => {
     }
 
     return {
-        "totalAmount": totalAmount,
+        "totalSales": totalSales,
         "mostSoldProduct": mostSoldProduct,
         "peakHour": peakHour
     }
