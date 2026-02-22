@@ -2,7 +2,7 @@ import { Order } from "../models/order.models.js";
 import { User } from "../models/user.models.js";
 
 export const getUserReportController = async (req) => {
-    const user = await User.find({uid: req.user.uid})
+    const user = await User.findOne({uid: req.user.uid})
     const orders = await Order.find({userId: user._id})
     let totalSpend = 0;
     let itemCounts = {}
@@ -10,11 +10,11 @@ export const getUserReportController = async (req) => {
     orders.map((order) => {
         totalSpend += order.totalAmount
 
-        order.orderItems.foreach((item) => {
+        order.orderItems.forEach((item) => {
             if(itemCounts[item.itemName])
-                itemCounts[item.itemName]++
+                itemCounts[item.itemName] += item.quantity
             else
-                itemCounts[item.itemName] = 1
+                itemCounts[item.itemName] = item.quantity
         })
     })
 

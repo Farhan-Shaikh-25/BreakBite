@@ -45,12 +45,12 @@ class _ReportPageState extends State<ReportPage> {
         final data = jsonDecode(response.body);
 
         setState(() {
-          totalSpent = data['totalSpent'] ?? 0;
+          totalSpent = data['totalSpend'] ?? 0;
 
           final favItem = data['favouriteItem'];
           if (favItem != null) {
-            favouriteItemName = favItem['itemName'] ?? "Unknown Item";
-            favouriteItemQuantity = favItem['totalQuantity'] ?? 0;
+            favouriteItemName = favItem['name'] ?? "Unknown Item";
+            favouriteItemQuantity = favItem['quantity'] ?? 0;
           }
         });
       }
