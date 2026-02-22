@@ -41,14 +41,14 @@ orderRoute.patch("/updatecollected", async (req,res) => {
     console.log("Order Collected")
 })
 
-orderRoute.get("/:tr", adminCheck, async (req,res) => {
-    const msg = await getReportController(req)
-    res.json({"message": msg})
-    console.log("Report Sent")
-})
-
 orderRoute.get("/userReport", authCheck, async (req,res) => {
     const msg = await getUserReportController(req)
     res.json({"message": msg})
     console.log("User Report Sent")
+})
+
+orderRoute.get("/:tr", adminCheck, async (req,res) => {
+    const msg = await getReportController(req)
+    res.json({"message": msg})
+    console.log("Report Sent")
 })
