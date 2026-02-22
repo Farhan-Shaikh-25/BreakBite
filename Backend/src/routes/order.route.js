@@ -10,7 +10,7 @@ import { getReportController } from '../controllers/getReport.controller.js'
 
 export const orderRoute = express.Router()
 
-orderRoute.get("/", adminCheck, async (req,res) => {
+orderRoute.get("/", async (req,res) => {
     const msg = await getOrderController()
     res.json({"message": msg})
     console.log("All Orders sent")
@@ -28,13 +28,13 @@ orderRoute.post("/add", authCheck, async (req,res) => {
     console.log("Order added")
 })
 
-orderRoute.patch("/updatestatus", adminCheck, async (req,res) => {
+orderRoute.patch("/updatestatus", async (req,res) => {
     const msg = await updateStatusController(req)
     res.json({"message": msg})
     console.log("Status Updated")
 })
 
-orderRoute.patch("/updatecollected", adminCheck, async (req,res) => {
+orderRoute.patch("/updatecollected", async (req,res) => {
     const msg = await updateCollectedController(req)
     res.json({"message": msg})
     console.log("Order Collected")
