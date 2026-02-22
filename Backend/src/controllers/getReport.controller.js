@@ -4,18 +4,15 @@ export const getReportController = async (req) => {
     const timeRange = req.params.tr;
     const startDate = new Date()
     startDate.setHours(0,0,0,0)
-    if(timeRange == "daily"){
-        await Order.find({createdAt: })
+    if(timeRange == "monthly"){
+        startDate.setDate(1)
     }
     else if(timeRange == "weekly"){
         let day = startDate.getDay()
         let diff = day == 0 ? 6 : day - 1
         startDate.setDate(startDate.getDate() - diff)
     }
-    else{
-        startDate.setDate(1)
-    }
-
+   
     const orders = await Order.find({
         createdAt: { $gte: startDate },
         status: { $in: ["Completed", "Collected"] }
