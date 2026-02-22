@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import '../widgets/breakbite_textbox.dart';
@@ -85,10 +86,12 @@ class ItemFormPage extends StatelessWidget{
                   clipBehavior: Clip.antiAlias, // <--- This is the cookie cutter!
                   child: InkWell(
                     onTap: () async{
+                      final token = await FirebaseAuth.instance.currentUser?.getIdToken();
                       final msg = await post(
                           Uri.parse("https://breakbite.onrender.com/item/add"),
                           headers: {
                             "Content-Type": "application/json",
+                            "Authorization": "Bearer $token"
                           },
                           body: jsonEncode({
                             "itemName" : itemName.text,

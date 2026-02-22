@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/breakbite_spinner.dart';
 import 'package:http/http.dart';
@@ -29,16 +30,23 @@ class AdminReportPageState extends State<AdminReportPage> {
     setState(() => isLoading = true);
 
     try {
+      final token = await FirebaseAuth.instance.currentUser?.getIdToken();
       final response = await get(
-        Uri.parse("https://breakbite.onrender.com/order/report/$selectedTimeframe"),
+        Uri.parse("https://breakbite.onrender.com/order/$selectedTimeframe"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token"
+        }
       );
-
+      print(response.body);
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body)['data'];
+        final data = jsonDecode(response.body)['message'];
+
         setState(() {
           totalSales = data['totalSales'] ?? 0;
-          mostSoldProduct = data['mostSoldProduct'] ?? "N/A";
-          peakHour = data['peakHour'] ?? "N/A";
+          mostSoldProduct =data['mostSoldProduct']['name'] ?? "N/A";
+          final rawHour = data['peakHour']['hour'];
+          peakHour = rawHour != null ? "$rawHour:00" : "N/A";
         });
       }
     } catch (e) {

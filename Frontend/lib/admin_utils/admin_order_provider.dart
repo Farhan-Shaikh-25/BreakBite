@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'admin_order.dart';
@@ -18,13 +19,15 @@ class AdminOrderProvider extends ChangeNotifier {
   Future<void> fetchOrders() async {
     _isLoading = true;
     notifyListeners(); // Tells the UI to show the spinner
+    final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final msg = await get(Uri.parse("https://breakbite.onrender.com/order/"),);
+    if(msg.statusCode == 200){
+      final List<dynamic> data = jsonDecode(msg.body)['message'];
 
-    final msg = await get(Uri.parse("https://breakbite.onrender.com/order/"));
-    final List<dynamic> data = jsonDecode(msg.body)['message'];
-
-    _orders = data.map((json) => AdminOrder.fromJson(json)).toList();
-    _isLoading = false;
-    notifyListeners(); // Tells the UI to show the data
+      _orders = data.map((json) => AdminOrder.fromJson(json)).toList();
+      _isLoading = false;
+      notifyListeners();
+    } // Tells the UI to show the data
   }
 
   Future<void> fetchOrdersSilent() async {

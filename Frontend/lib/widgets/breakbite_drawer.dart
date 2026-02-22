@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/cart_page.dart';
 import 'package:frontend/pages/order_history_page.dart'; // Import your history page
 import 'package:frontend/pages/login_page.dart';
+import 'package:frontend/pages/report_page.dart';
 import 'package:frontend/utils/order_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart';// Import your login page
@@ -82,6 +83,19 @@ class BreakBiteDrawer extends StatelessWidget {
                     value: orderProvider,
                     child: OrderHistoryPage(),
                   ),
+                ),
+              );
+            },
+          ),
+          _buildDrawerItem(
+            context,
+            icon: Icons.bar_chart,
+            title: "Analytics",
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ReportPage()
                 ),
               );
             },

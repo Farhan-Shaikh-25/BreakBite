@@ -85,14 +85,14 @@ class _AdminPageState extends State<AdminPage> {
         ],
       ),
       body: screens[_selectedIndex],
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: _selectedIndex == 0 ? FloatingActionButton(
           onPressed: () => orderProvider.fetchOrders(),
           backgroundColor: Colors.yellowAccent,
           tooltip: "refresh",
           child: Icon(Icons.refresh_outlined),
-
-      ),
+      ) : null,
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.black,
         selectedItemColor: Colors.orange,
         unselectedItemColor: Colors.white70,
