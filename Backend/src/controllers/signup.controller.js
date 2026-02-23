@@ -15,6 +15,7 @@ export const signupController = async (req) => {
         return "User Already Exists!"
     }
     
+    try{
     const newUser = new User({
         uid : token,
         fullName : fname,
@@ -26,4 +27,8 @@ export const signupController = async (req) => {
     await newUser.save()
     console.log("User Created")
     return "User Creaated Successfully"
+}catch(e){
+    console.log("Duplicate fields")
+    return "Duplicate Fields"
+}
 }
