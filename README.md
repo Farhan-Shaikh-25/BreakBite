@@ -2,39 +2,50 @@
 
 BreakBite is a full-stack canteen food ordering application that lets students browse the canteen menu and place orders digitally — eliminating queues and manual order-taking. It features a Flutter-based mobile and web frontend (for both student/faculty and admin) with Express.js as a backend.
 
-live web app link: https://breakbite-c33c3.web.app
-
-(You may have to wait 30 seconds for the server to wake up as its deployed on a free tier platform)
-
+> **Note:** The backend is hosted on a free-tier instance. Please allow ~30 seconds for "cold start" activation upon the first request.
+> 
+> **Live Web App:** [https://breakbite-c33c3.web.app](https://breakbite-c33c3.web.app)
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-### 👤 Student 
-- Browse the canteen menu with item details and prices
-- Add items to cart and place orders
-- Track order status in real time and recieve notification once order status is set to complete by the admin
-- User authentication (login / sign-up)
-- A one time unique digital receipt with screenshot prevention, animation and a 2 minute timer to prevent reuse of the receipt.
+### 👤 Student Experience
+* **Digital Marketplace:** Browse categorized menu items with real-time price updates.
+* **Order Orchestration:** Seamless cart management and secure checkout.
+* **Live Status Tracking:** Real-time push notifications (via FCM) for status changes (Processing → Preparing → Completed).
+* **Anti-Fraud Digital Receipt:** A proprietary security feature featuring:
+    * **Screenshot Prevention:** Visual cues to discourage unauthorized duplication.
+    * **Dynamic Animation:** Ensures the receipt is live and not a static image.
+    * **Self-Destruct Timer:** A 2-minute validity window to prevent re-use.
 
-### 🛠️ Admin
-- View and manage incoming orders
-- Update order status (Processing → Preparing → Completed)
-- Add menu itme
-- Dashboard overview of daily orders
+### 🛠️ Admin Management
+* **Order Fulfillment Dashboard:** Centralized view to manage and update incoming order states.
+* **Inventory Control:** Interface to add/edit menu items and manage availability.
+* **Operational Analytics:** Overview of daily volume to assist in inventory forecasting.
 
 ---
 
 ## 🏗️ Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Mobile Frontend | Flutter (Dart) |
-| Backend / Database | Express.js / MongoDB|
-| Authentication | Firebase Auth |
-| Notification System | Firebase Cloud Messaging |
-| CI/CD | GitHub Actions |
+| Layer | Technology | Role |
+| :--- | :--- | :--- |
+| **Frontend** | Flutter | Cross-platform UI for Android, iOS, and Web. |
+| **Backend** | Express.js / Node.js | RESTful API for order logic and business rules. |
+| **Database** | MongoDB | Document-based storage for flexible menu and order schemas. |
+| **Security** | Firebase Auth | Secure, token-based user authentication. |
+| **Real-time** | Firebase Cloud Messaging | Low-latency status notifications. |
+| **CI/CD** | GitHub Actions | Automated build and deployment pipelines. |
+
+---
+
+## 🛠️ Technical Challenges & Solutions
+
+* **The Problem:** Preventing order fraud (students showing the same screenshot twice).
+* **The Solution:** Developed a **Time-Locked Receipt** logic. The frontend generates a unique animated hash that expires after 120 seconds, requiring staff to verify the "live" state of the UI before dispensing food.
+
+* **The Problem:** Handling sudden bursts of traffic during short college breaks.
+* **The Solution:** Optimized backend performance by moving heavy calculations to the JavaScript layer and utilizing efficient MongoDB indexing to ensure sub-second response times for order fetches.
 
 ---
 
@@ -54,35 +65,34 @@ BreakBite/
 
 ---
 
-## 🛠️ Getting Started
+## 🛠️ Setup & Installation
 
 ### Prerequisites
-- [Flutter SDK](https://flutter.dev/docs/get-started/install) (v3.x or above)
-- A Firebase project with Firestore and Authentication enabled
-- A modern web browser (for the admin panel)
+* Flutter SDK (v3.x+)
+* Node.js & npm
+* Firebase Project Credentials
 
----
+### 1. Environment Configuration
+The backend requires few environment variables to function (MongoDB connection strings and Firebase Service Account keys).
+* Navigate to the `Backend` directory.
+* Create a `.env` file based on the provided `.env.example`.
+* Populate the fields with your specific credentials.
 
-###
+### 2. Quick Start
+1. **Backend:**
+   ```bash
+   cd Backend
+   npm install
+   node index.js
+   ```
 
-### 📱 Running the Flutter App
-
-```bash
-# Navigate to the Flutter project
-cd Frontend
-
-# Install dependencies
-flutter pub get
-
-# Run the app
-flutter run
-```
-
----
-
-### 🌐 Running the Admin Panel
-
-The admin panel is a static web app. The admin panel can be accessed by entering the admin credentials on the login page. The code for the admin page is availiable in `Frontend/lib/admin_utils` & `Frontend/lib/admin_widgets` directories.
+2. **Frontend**
+   ```bash
+   cd Frontend
+   flutter pub get
+   flutter run -d chrome  # For Web Admin
+   flutter run            # For Mobile App
+   ```
 
 ---
 
